@@ -21,11 +21,22 @@ nock.disableNetConnect();
 
 const scope = nock(/.*/).get(/(capitals|countries)\.json\?search=.*/);
 
-const mockFetch = (data) => scope.reply(() => [200, JSON.stringify(data)]);
+// const mockFetch = (data) => scope.reply(() => [200, JSON.stringify(data)]);
+
+
+const mockFetch = (data) => scope.reply(
+  200,
+  JSON.stringify(data),
+  {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Credentials': 'true'
+  }
+);
 
 beforeEach(() => {
   const initHtml = fs.readFileSync(path.join('__fixtures__', 'index.html')).toString();
   document.body.innerHTML = initHtml;
+  // console.log(document);
   run();
 });
 
@@ -33,7 +44,7 @@ test('Capital', async () => {
   let response;
 
   response = mockFetch([]);
-  await userEvent.type(getElement.capitalTextBox(), 'x');
+  await userEvent.default.type(getElement.capitalTextBox(), 'x');
   await waitFor(() => {
     response.done();
     const autoCompleteResult = getElement.capitalList();
@@ -45,7 +56,7 @@ test('Capital', async () => {
   });
 
   response = mockFetch([]);
-  await userEvent.type(getElement.capitalTextBox(), '{backspace}');
+  await userEvent.default.type(getElement.capitalTextBox(), '{backspace}');
   expect(getElement.capitalTextBox()).not.toHaveValue();
   await waitFor(() => {
     response.done();
@@ -59,7 +70,7 @@ test('Capital', async () => {
 
   const list1 = ['mariehamn', 'manama', 'minsk', 'moroni'];
   response = mockFetch(list1);
-  await userEvent.type(getElement.capitalTextBox(), 'm');
+  await userEvent.default.type(getElement.capitalTextBox(), 'm');
   await waitFor(() => {
     response.done();
     const { getAllByRole } = within(getElement.capitalList());
@@ -71,7 +82,7 @@ test('Capital', async () => {
 
   const list2 = ['moroni', 'monrovia', 'monaco', 'moscow'];
   response = mockFetch(list2);
-  await userEvent.type(getElement.capitalTextBox(), 'o');
+  await userEvent.default.type(getElement.capitalTextBox(), 'o');
   expect(getElement.capitalTextBox()).toHaveValue('mo');
   await waitFor(() => {
     response.done();
@@ -84,7 +95,7 @@ test('Capital', async () => {
 
   const list3 = ['moscow'];
   response = mockFetch(list3);
-  await userEvent.type(getElement.capitalTextBox(), 's');
+  await userEvent.default.type(getElement.capitalTextBox(), 's');
   expect(getElement.capitalTextBox()).toHaveValue('mos');
   await waitFor(() => {
     response.done();
@@ -100,7 +111,7 @@ test('Country', async () => {
   let response;
 
   response = mockFetch([]);
-  await userEvent.type(getElement.countryTextBox(), 'r');
+  await userEvent.default.type(getElement.countryTextBox(), 'r');
   await waitFor(() => {
     response.done();
     const autoCompleteResult = getElement.countryList();
@@ -113,7 +124,7 @@ test('Country', async () => {
 
   const list1 = ['russia'];
   response = mockFetch(list1);
-  await userEvent.type(getElement.countryTextBox(), 'u');
+  await userEvent.default.type(getElement.countryTextBox(), 'u');
   expect(getElement.countryTextBox()).toHaveValue('ru');
   await waitFor(() => {
     response.done();
@@ -125,7 +136,7 @@ test('Country', async () => {
   });
 
   response = mockFetch([]);
-  await userEvent.type(getElement.countryTextBox(), 'c');
+  await userEvent.default.type(getElement.countryTextBox(), 'c');
   expect(getElement.countryTextBox()).toHaveValue('ruc');
   await waitFor(() => {
     response.done();
@@ -138,7 +149,7 @@ test('Country', async () => {
 
   const list2 = ['russia'];
   response = mockFetch(list2);
-  await userEvent.type(getElement.countryTextBox(), '{backspace}');
+  await userEvent.default.type(getElement.countryTextBox(), '{backspace}');
   expect(getElement.countryTextBox()).toHaveValue('ru');
   await waitFor(() => {
     response.done();
@@ -153,7 +164,7 @@ test('Country', async () => {
 test('Not mutated another list', async () => {
   const countryList = ['russia', 'romania'];
   const response1 = mockFetch(countryList);
-  await userEvent.type(getElement.countryTextBox(), 'r');
+  await userEvent.default.type(getElement.countryTextBox(), 'r');
   await waitFor(() => {
     response1.done();
     const { getAllByRole } = within(getElement.capitalList());
@@ -165,7 +176,7 @@ test('Not mutated another list', async () => {
   const capitalList = ['mariehamn', 'manama', 'minsk', 'moroni'];
   const response2 = mockFetch(capitalList);
   getElement.capitalTextBox().focus();
-  await userEvent.type(getElement.capitalTextBox(), 'm');
+  await userEvent.default.type(getElement.capitalTextBox(), 'm');
   await waitFor(() => {
     response2.done();
     const { getAllByRole } = within(getElement.countryList());
