@@ -1,0 +1,35 @@
+{
+  "name": "autocomplete",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --colors"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testEnvironmentOptions": {
+      "url": "http://test.local"
+    }
+  },
+  "dependencies": {
+    "whatwg-fetch": "*",
+    "world-countries": "*",
+    "core-js": "*",
+    "regenerator-runtime": "*",
+    "@jest/globals": "*"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^9.3.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/user-event": "^14.4.3",
+    "parcel": "^2.9.3",
+    "prettier": "2.8.8",
+    "nock": "*"
+  },
+  "author": "",
+  "license": "ISC"
+}
