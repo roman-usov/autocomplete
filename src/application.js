@@ -1,6 +1,6 @@
 import 'whatwg-fetch';
 
-const host = 'https://web-js-dom-ajax-5754779.evaluator2-5.hexlet.io';
+const HOST = 'https://web-js-dom-ajax-5754779.evaluator2-5.hexlet.io';
 
 function getSearchURL (url, path, searchValue) {
   const searchUrl = new URL(path, url);
@@ -51,7 +51,7 @@ export default () => {
     const inputValue = clickedEl.value;
     const inputName = clickedEl.dataset.autocompleteName;
     
-    const urlName = host ? host : window.location.origin;
+    const urlName = HOST ? HOST : window.location.origin;
     const pathName = clickedEl.dataset.autocomplete;
     const searchUrl = getSearchURL(urlName, pathName, inputValue);
 
