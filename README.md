@@ -1,6 +1,6 @@
 The function in this mini-project implements the autocomplete capability.
 
-The input elements on the page use the `data-autocomplete` and the `data-autocomplete-name` data attributes that are used in the implementation.
+The input elements on the page have the `data-autocomplete` and the `data-autocomplete-name` data attributes that are used in the implementation.
 
 The `data-autocomplete` data attribute has a link to the resource providing data. 
 
@@ -30,4 +30,4 @@ If the server returns an empty array, the list shows
 * The current input value is extracted using e.target.value.
 * The function uses `async/await`.
 * The function works with multiple inputs with autocompletes on a page.
-* The `input` event is used tha handle input.
+* The `input` event is used to handle input.
